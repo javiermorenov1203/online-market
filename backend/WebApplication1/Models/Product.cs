@@ -9,4 +9,3 @@ public class Product
     public int PublisherId { get; set; }
 
 }
-
