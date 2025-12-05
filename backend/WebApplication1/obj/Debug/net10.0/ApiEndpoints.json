@@ -8,8 +8,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "UserDto",
+        "Name": "user",
+        "Type": "User",
         "IsRequired": true
       }
     ],
@@ -24,8 +24,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "UserDto",
+        "Name": "userInfo",
+        "Type": "UserInfo",
         "IsRequired": true
       }
     ],

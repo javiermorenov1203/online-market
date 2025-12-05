@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,33 +17,36 @@ public class AuthController : HomeController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserDto dto)
+    public async Task<IActionResult> Register(UserInfo userInfo)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-            return BadRequest(new { error = "El email ya está registrado", dto.Email });
+        var user = userInfo.user;
+        var userPersonalData = userInfo.userPersonalData;
 
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            return BadRequest(new { error = "El email ya está registrado", user.Email });
 
-        var user = new User
-        {
-            Email = dto.Email,
-            Password = hashedPassword
-        };
+        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-        _context.Users.Add(user);
+        user.Password = hashedPassword;
+
+        var dbUser = _context.Users.Add(user).Entity;
+        await _context.SaveChangesAsync();
+        
+        userPersonalData.Id = dbUser.Id;
+        _context.UserPersonalData.Add(userPersonalData);
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Usuario registrado correctamente", dto.Email });
+        return Ok(new { message = "Usuario registrado correctamente", user.Email });
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(UserDto dto)
+    public async Task<IActionResult> Login(User user)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-        if (user == null)
+        var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        if (dbUser == null)
             return Unauthorized(new { error = "Email o contraseña inválidos" });
 
-        bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
+        bool isValid = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
 
         if (!isValid)
             return Unauthorized(new { error = "Email o contraseña inválidos" });
@@ -50,8 +54,8 @@ public class AuthController : HomeController
         // 1) Claims del usuario
         var claims = new[]
         {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
+            new Claim(ClaimTypes.Email, dbUser.Email)
         };
 
         // 2) clave secreta que usarás en appsettings.json
