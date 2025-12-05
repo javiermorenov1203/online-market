@@ -2,7 +2,7 @@
   {
     "ContainingType": "ProductsController",
     "Method": "GetProductos",
-    "RelativePath": "api/products",
+    "RelativePath": "api/Products",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

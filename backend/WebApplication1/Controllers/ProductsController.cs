@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Controllers;
 using WebApplication1.Data;
 
 [ApiController]
-[Route("api/products")]
-public class ProductsController : ControllerBase
+[Route("api/[controller]")]
+public class ProductsController : HomeController
 {
-    private readonly AppDbContext _context;
-
-    public ProductsController(AppDbContext context)
+    public ProductsController(AppDbContext context) : base(context)
     {
-        _context = context;
     }
 
     [HttpGet]
