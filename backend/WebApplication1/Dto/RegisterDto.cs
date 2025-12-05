@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-public class RegisterDto
+public class UserDto
 {
     public string Email { get; set; }
     [MinLength(6)]

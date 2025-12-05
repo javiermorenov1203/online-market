@@ -337,3 +337,4 @@ C:\Users\Javier\Documents\Personal Projects\Online_Market\backend\WebApplication
 C:\Users\Javier\Documents\Personal Projects\Online_Market\backend\WebApplication1\obj\Debug\net10.0\WebApplication1.genruntimeconfig.cache
 C:\Users\Javier\Documents\Personal Projects\Online_Market\backend\WebApplication1\obj\Debug\net10.0\ref\WebApplication1.dll
 C:\Users\Javier\Documents\Personal Projects\Online_Market\backend\WebApplication1\bin\Debug\net10.0\BCrypt.Net-Next.dll
+C:\Users\Javier\Documents\Personal Projects\Online_Market\backend\WebApplication1\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
