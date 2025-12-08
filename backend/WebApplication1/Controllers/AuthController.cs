@@ -23,7 +23,7 @@ public class AuthController : HomeController
         var userPersonalData = userInfo.userPersonalData;
 
         if (await _context.Users.AnyAsync(u => u.Email == user.Email))
-            return BadRequest(new { error = "El email ya está registrado", user.Email });
+            return BadRequest(new { error = "Email has already been registered", user.Email });
 
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
@@ -31,12 +31,12 @@ public class AuthController : HomeController
 
         var dbUser = _context.Users.Add(user).Entity;
         await _context.SaveChangesAsync();
-        
-        userPersonalData.Id = dbUser.Id;
-        _context.UserPersonalData.Add(userPersonalData);
+
+        userPersonalData.UserId = dbUser.Id;
+        await _context.UserPersonalData.AddAsync(userPersonalData);
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Usuario registrado correctamente", user.Email });
+        return Ok(new { message = "User registered successfully", user.Email });
     }
 
     [HttpPost("login")]
@@ -44,12 +44,12 @@ public class AuthController : HomeController
     {
         var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         if (dbUser == null)
-            return Unauthorized(new { error = "Email o contraseña inválidos" });
+            return Unauthorized(new { error = "Email or password are invalid" });
 
         bool isValid = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
 
         if (!isValid)
-            return Unauthorized(new { error = "Email o contraseña inválidos" });
+            return Unauthorized(new { error = "Email or password are invalid" });
 
         // 1) Claims del usuario
         var claims = new[]
@@ -74,9 +74,20 @@ public class AuthController : HomeController
         // 4) Devolver token al frontend
         return Ok(new
         {
-            message = "Login correcto",
+            message = "Successful login",
             token = tokenString
         });
+    }
+
+    [HttpGet("check-email-exists")]
+    public async Task<IActionResult> CheckEmailExists([FromQuery] string email)
+    {
+        bool exists = await _context.Users.AnyAsync(u => u.Email == email);
+
+        if (!exists)
+            return NotFound(new { message = "User not found" });
+        
+        return Ok(new { message = "User found" });
     }
 }
 
