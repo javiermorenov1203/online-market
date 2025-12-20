@@ -17,31 +17,39 @@ public class AuthController : HomeController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserInfo userInfo)
+    public async Task<IActionResult> Register(UserInfoDto userInfoDto)
     {
-        var user = userInfo.user;
-        var userPersonalData = userInfo.userPersonalData;
+        User user = new User(userInfoDto.userDto);
+        UserPersonalData userPersonalData = new UserPersonalData(userInfoDto.userPersonalDataDto);
 
         if (await _context.Users.AnyAsync(u => u.Email == user.Email))
             return BadRequest(new { error = "Email has already been registered", user.Email });
 
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
         user.Password = hashedPassword;
 
-        var dbUser = _context.Users.Add(user).Entity;
+        var createdUser = _context.Users.Add(user).Entity;
         await _context.SaveChangesAsync();
 
-        userPersonalData.UserId = dbUser.Id;
-        await _context.UserPersonalData.AddAsync(userPersonalData);
+        userPersonalData.UserId = createdUser.Id;
+        var createdUserPersonalData = _context.UserPersonalData.Add(userPersonalData).Entity;
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "User registered successfully", user.Email });
+        return Ok(new
+        {
+            message = "User registered successfully",
+            userInfo = new UserInfo
+            {
+                user = createdUser,
+                userPersonalData = createdUserPersonalData
+            }
+        });
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(User user)
+    public async Task<IActionResult> Login(UserDto userDto)
     {
+        User user = new User(userDto);
         var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         if (dbUser == null)
             return Unauthorized(new { error = "Email or password are invalid" });
@@ -86,7 +94,7 @@ public class AuthController : HomeController
 
         if (!exists)
             return NotFound(new { message = "User not found" });
-        
+
         return Ok(new { message = "User found" });
     }
 }
