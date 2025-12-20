@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,42 +17,53 @@ public class AuthController : HomeController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(UserDto dto)
+    public async Task<IActionResult> Register(UserInfoDto userInfoDto)
     {
-        if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-            return BadRequest(new { error = "El email ya está registrado", dto.Email });
+        User user = new User(userInfoDto.userDto);
+        UserPersonalData userPersonalData = new UserPersonalData(userInfoDto.userPersonalDataDto);
 
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        if (await _context.Users.AnyAsync(u => u.Email == user.Email))
+            return BadRequest(new { error = "Email has already been registered", user.Email });
 
-        var user = new User
-        {
-            Email = dto.Email,
-            Password = hashedPassword
-        };
+        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        user.Password = hashedPassword;
 
-        _context.Users.Add(user);
+        var createdUser = _context.Users.Add(user).Entity;
         await _context.SaveChangesAsync();
 
-        return Ok(new { message = "Usuario registrado correctamente", dto.Email });
+        userPersonalData.UserId = createdUser.Id;
+        var createdUserPersonalData = _context.UserPersonalData.Add(userPersonalData).Entity;
+        await _context.SaveChangesAsync();
+
+        return Ok(new
+        {
+            message = "User registered successfully",
+            userInfo = new UserInfo
+            {
+                user = createdUser,
+                userPersonalData = createdUserPersonalData
+            }
+        });
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(UserDto dto)
+    public async Task<IActionResult> Login(UserDto userDto)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-        if (user == null)
-            return Unauthorized(new { error = "Email o contraseña inválidos" });
+        User user = new User(userDto);
+        var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        if (dbUser == null)
+            return Unauthorized(new { error = "Email or password are invalid" });
 
-        bool isValid = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
+        bool isValid = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
 
         if (!isValid)
-            return Unauthorized(new { error = "Email o contraseña inválidos" });
+            return Unauthorized(new { error = "Email or password are invalid" });
 
         // 1) Claims del usuario
         var claims = new[]
         {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
+            new Claim(ClaimTypes.Email, dbUser.Email)
         };
 
         // 2) clave secreta que usarás en appsettings.json
@@ -70,9 +82,20 @@ public class AuthController : HomeController
         // 4) Devolver token al frontend
         return Ok(new
         {
-            message = "Login correcto",
+            message = "Successful login",
             token = tokenString
         });
+    }
+
+    [HttpGet("check-email-exists")]
+    public async Task<IActionResult> CheckEmailExists([FromQuery] string email)
+    {
+        bool exists = await _context.Users.AnyAsync(u => u.Email == email);
+
+        if (!exists)
+            return NotFound(new { message = "User not found" });
+
+        return Ok(new { message = "User found" });
     }
 }
 
