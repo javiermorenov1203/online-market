@@ -30,8 +30,9 @@ public class ProductsController : HomeController
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> PostProduct(Product product)
+    public async Task<IActionResult> PostProduct(ProductDto productDto)
     {
+        Product product = new Product(productDto);
         string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         product.PublisherId = int.Parse(userId);
         await _context.Products.AddAsync(product);

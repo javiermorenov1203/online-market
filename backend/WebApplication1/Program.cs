@@ -32,10 +32,21 @@ builder.Services.AddAuthorization(); // Opcional pero recomendado
 
 builder.Services.AddControllers();
 
+builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
 
 // --- Middleware (orden importante) ---
 app.UseRouting();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseAuthentication();   // <<-- debe ir antes de UseAuthorization
 app.UseAuthorization();

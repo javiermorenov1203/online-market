@@ -24,8 +24,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "User",
+        "Name": "userDto",
+        "Type": "UserDto",
         "IsRequired": true
       }
     ],
@@ -40,8 +40,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userInfo",
-        "Type": "UserInfo",
+        "Name": "userInfoDto",
+        "Type": "UserInfoDto",
         "IsRequired": true
       }
     ],
@@ -66,8 +66,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "product",
-        "Type": "Product",
+        "Name": "productDto",
+        "Type": "ProductDto",
         "IsRequired": true
       }
     ],

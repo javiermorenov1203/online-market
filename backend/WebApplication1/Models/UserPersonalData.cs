@@ -3,6 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 public class UserPersonalData
 {
+    public UserPersonalData() { }
+
+    public UserPersonalData(UserPersonalDataDto data)
+    {
+        this.FirstName = data.FirstName;
+        this.MiddleName = data.MiddleName;
+        this.LastName = data.LastName;
+        this.SecondLastName = data.SecondLastName;
+    }
+
     [Key]
     public int UserId { get; set; }
     public string FirstName { get; set; }
