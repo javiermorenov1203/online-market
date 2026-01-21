@@ -1,0 +1,40 @@
+.field {
+    padding: 8px 6px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgb(248, 248, 248);
+}
+
+label {
+    display: grid;
+}
+
+label, p, input, button {
+    font-size: 14px;
+}
+
+input[type="submit"], button {
+    border-style: none;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: rgb(204, 204, 204);
+    min-width: 100px;
+}
+
+input[type="submit"] {
+    background-color: rgb(229, 0, 0);
+    color: white;
+}
+
+input[type="submit"], button, a {
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: rgb(187, 0, 0);
+}
+
+label input {
+    margin-top: 4px;
+}

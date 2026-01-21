@@ -1,0 +1,23 @@
+#register-form {
+    display: grid;
+    justify-content: center;
+}
+
+#account-info,
+#personal-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+input[value="Register"] {
+    width: 100px;
+}
+
+#register-footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-top: 30px;
+    gap: 50px;
+}

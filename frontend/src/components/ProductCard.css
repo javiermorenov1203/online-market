@@ -1,0 +1,29 @@
+.product-card {
+    height: 250px;
+    width: 150px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(104, 104, 104);
+    border-radius: 5px;
+}
+
+.product-card:hover {
+    cursor: pointer;
+    background-color: rgb(238, 238, 238);
+}
+
+.product-card img {
+    width: 150px;
+    max-height: 150px;
+    border-radius: 5px;
+}
+
+.product-card div {
+    padding: 0px 10px;
+    font-size: 14px;
+}
+
+.title {
+    max-height: 30px;
+    overflow: hidden;
+}

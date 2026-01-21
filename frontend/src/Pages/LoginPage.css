@@ -1,0 +1,30 @@
+#login-form-container {
+    display: grid;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+#login-form {
+    width: 400px;
+    gap: 15px;
+    display: grid;
+    justify-content: center;
+    padding: 20px 0px;
+}
+
+#login-form-container p {
+    font-size: 15px;
+}
+
+#login-form-container h2,
+#login-form-container p {
+    text-align: center;
+}
+
+#login-form-container label input {
+    width: 250px;
+}
+
+#login-form-container input[type="submit"] {
+    margin-top: 10px;
+}
