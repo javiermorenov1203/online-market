@@ -1,12 +1,14 @@
 import "./ProductCard.css"
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
     return (
         <div className="product-card">
-            <img src="src\assets\playstation-5-pro.jpg" alt="" />
+            <div className="product-image-container">
+                <img src={import.meta.env.VITE_API_BASE + product.image1} alt={product.name} loading="lazy" />
+            </div>
             <div>
-                <p className="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-                <p>USD 1500</p>
+                <p className="title">{product.name}</p>
+                <p>USD {product.price}</p>
             </div>
         </div>
     )

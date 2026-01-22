@@ -5,13 +5,10 @@
 
 #account-info,
 #personal-info {
+    width: 900px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-}
-
-input[value="Register"] {
-    width: 100px;
 }
 
 #register-footer {

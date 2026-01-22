@@ -5,6 +5,7 @@
     border-width: 1px;
     border-color: rgb(104, 104, 104);
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .product-card:hover {
@@ -12,13 +13,21 @@
     background-color: rgb(238, 238, 238);
 }
 
-.product-card img {
-    width: 150px;
-    max-height: 150px;
-    border-radius: 5px;
+.product-image-container {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    border-radius: inherit;
 }
 
-.product-card div {
+.product-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.product-card div p {
     padding: 0px 10px;
     font-size: 14px;
 }

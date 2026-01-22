@@ -27,10 +27,12 @@
     outline: 0;
 }
 
-.main-header p {
+#page-title {
     margin: 0;
     font-weight: bold;
     font-size: 20px;
+    text-decoration: none;
+    color: white;
 }
 
 .header-center {

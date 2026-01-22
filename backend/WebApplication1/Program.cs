@@ -32,11 +32,21 @@ builder.Services.AddAuthorization(); // Opcional pero recomendado
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddEndpointsApiExplorer(); // Required for Minimal APIs
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseCors("AllowAll");
 
 // --- Middleware (orden importante) ---
 app.UseRouting();
@@ -52,5 +62,8 @@ app.UseAuthentication();   // <<-- debe ir antes de UseAuthorization
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Imagenes
+app.UseStaticFiles();
 
 app.Run();
