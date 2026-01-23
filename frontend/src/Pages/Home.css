@@ -1,24 +1,8 @@
 .content-container {
-    display: flex;
-    justify-content: center;
-}
-
-.content {
-    display: block;
-    width: 800px;
-}
-
-.product-section {
-    display: block;
+    display: grid;
     justify-content: center;
 }
 
 h3 {
     text-align: center;
-}
-
-.product-panel {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
 }

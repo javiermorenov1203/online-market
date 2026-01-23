@@ -7,8 +7,8 @@ export default function ProductCard({ product }) {
                 <img src={import.meta.env.VITE_API_BASE + product.image1} alt={product.name} loading="lazy" />
             </div>
             <div>
-                <p className="title">{product.name}</p>
-                <p>USD {product.price}</p>
+                <p className="product-card-title">{product.name}</p>
+                <p className="product-card-price">USD {product.finalPrice.toFixed(2)}</p>
             </div>
         </div>
     )

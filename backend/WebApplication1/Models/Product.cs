@@ -7,7 +7,8 @@ public class Product
     {
         Name = dto.Name;
         Description = dto.Description;
-        Price = dto.Price;
+        BasePrice = dto.BasePrice;
+        Discount = dto.Discount;
         Quantity = dto.Quantity;
         Image1 = dto.Image1;
         Image2 = dto.Image2;
@@ -19,9 +20,13 @@ public class Product
     public int Id { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
-    public decimal Price { get; set; }
+    public decimal BasePrice { get; set; }
+    public int? Discount { get; set; }
+    public decimal FinalPrice { get; set; }
     public int Quantity { get; set; }
     public int PublisherId { get; set; }
+    public int Views { get; set; }
+    public int? unitsSold { get; set; }
     public string Image1 { get; set; }
     public string? Image2 { get; set; }
     public string? Image3 { get; set; }

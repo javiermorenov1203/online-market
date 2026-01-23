@@ -3,7 +3,8 @@ public class ProductDto
 {
     public string Name { get; set; }
     public string? Description { get; set; }
-    public decimal Price { get; set; }
+    public decimal BasePrice { get; set; }
+    public int? Discount { get; set; }
     public int Quantity { get; set; }
     public string Image1 { get; set; }
     public string? Image2 { get; set; }
