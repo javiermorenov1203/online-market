@@ -33,7 +33,7 @@ export default function RegisterPage() {
         <>
             <LoginHeader></LoginHeader>
             <form id="register-form" onSubmit={handleSubmit}>
-                <h3>Account Information</h3>
+                <h3 className='section-title'>Account Information</h3>
                 <div id="account-info">
                     <label>Email
                         <input type="email" name="email" className="field" ref={emailRef} />
@@ -45,7 +45,7 @@ export default function RegisterPage() {
                         <input type="password" name="password" className="field" ref={confirmPasswordRef} />
                     </label>
                 </div>
-                <h3>Personal Information</h3>
+                <h3 className='section-title'>Personal Information</h3>
                 <div id="personal-info">
                     <label>First name
                         <input type="text" name="firstName" className="field" ref={firstNameRef} />

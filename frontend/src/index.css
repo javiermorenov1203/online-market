@@ -4,3 +4,9 @@ body {
     color: rgb(53, 53, 53);
 }
 
+div.page {
+    display: flex;
+    justify-content: center;
+}
+
+

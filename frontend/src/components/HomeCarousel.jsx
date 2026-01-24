@@ -19,10 +19,7 @@ export default function HomeCarousel({ products }) {
             <button className="arrow-btn" onClick={scrollLeft}>&lt;</button>
             <div className="product-panel" ref={panelRef}>
                 {products.map(p => (
-                    <>
-                        <ProductCard key={p.id} product={p} />
-                        <ProductCard key={p.id} product={p} />
-                    </>
+                    <ProductCard key={p.id} product={p} />
                 ))}
             </div>
             <button className="arrow-btn" onClick={scrollRight}>&gt;</button>

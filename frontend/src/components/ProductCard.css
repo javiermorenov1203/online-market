@@ -23,11 +23,11 @@
 }
 
 .product-card img {
-    width: 90%;
-    max-width: 100%;
+    max-width: 95%;
+    max-height: 95%;
 }
 
-.product-card div p {
+.product-card-info {
     padding: 0px 10px;
 }
 
@@ -43,4 +43,23 @@
 
 .product-card-price {
     font-size: 16px;
+}
+
+.product-card-price-container {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    align-items: center;
+}
+
+.product-card-price-container p {
+    margin: 0;
+}
+
+.product-card-discount {
+    color: rgb(255, 78, 78);
+}
+
+.product-card-base-price {
+    text-decoration: line-through;
+    opacity: 0.7;
 }

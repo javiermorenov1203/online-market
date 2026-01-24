@@ -12,6 +12,16 @@ export const fetchProducts = async () => {
     }
 };
 
+export const fetchProduct = async (id) => {
+    try {
+        const response = await axios.get(`${apiUrl}/products/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        throw error;
+    }
+};
+
 export const fetchMostViewedProducts = async () => {
     try {
         const response = await axios.get(`${apiUrl}/products/most-viewed`);

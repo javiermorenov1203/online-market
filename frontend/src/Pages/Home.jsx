@@ -23,14 +23,14 @@ export default function Home() {
     return (
         <>
             <Header></Header>
-            <div className="content-container">
+            <div className="page">
                 <div className="content">
                     <div className="product-section">
-                        <h3>Most popular products</h3>
+                        <h3 className="section-title">Most popular products</h3>
                         <HomeCarousel products={mostViewedProducts}></HomeCarousel>
                     </div>
                     <div className="product-section">
-                        <h3>Discounts</h3>
+                        <h3 className="section-title">Discounts</h3>
                         <HomeCarousel products={productsWithDiscounts}></HomeCarousel>
                     </div>
                 </div>

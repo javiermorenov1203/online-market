@@ -28,11 +28,11 @@ public class AuthController : HomeController
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
         user.Password = hashedPassword;
 
-        var createdUser = _context.Users.Add(user).Entity;
+        _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        userPersonalData.UserId = createdUser.Id;
-        var createdUserPersonalData = _context.UserPersonalData.Add(userPersonalData).Entity;
+        userPersonalData.UserId = user.Id;
+        _context.UserPersonalData.Add(userPersonalData);
         await _context.SaveChangesAsync();
 
         return Ok(new
@@ -40,8 +40,8 @@ public class AuthController : HomeController
             message = "User registered successfully",
             userInfo = new UserInfo
             {
-                user = createdUser,
-                userPersonalData = createdUserPersonalData
+                user = user,
+                userPersonalData = userPersonalData
             }
         });
     }
