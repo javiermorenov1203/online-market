@@ -21,7 +21,7 @@ input[type="submit"], button {
     background-color: rgb(204, 204, 204);
 }
 
-input[type="submit"] {
+input[type="submit"], .red-btn {
     background-color: rgb(229, 0, 0);
     color: white;
 }

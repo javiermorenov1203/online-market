@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
     const navigate = useNavigate()
 
     return (
-        <div className="product-card" onClick={() => navigate(`product/${product.id}`)}>
+        <div className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
             <div className="product-image-container">
                 <img src={import.meta.env.VITE_API_BASE + product.images?.[0]} alt={product.name} loading="lazy" />
             </div>

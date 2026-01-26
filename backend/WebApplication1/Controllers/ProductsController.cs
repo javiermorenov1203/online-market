@@ -1,90 +1,77 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController : HomeController
+public class ProductsController : ControllerBase
 {
-    public ProductsController(AppDbContext context) : base(context)
+    private readonly ProductService _service;
+
+    public ProductsController(ProductService service)
     {
+        _service = service;
     }
 
+    // GET /api/products
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await _context.Products.ToListAsync();
-        var productResponseList = await createProductResponseList(products);
-        return Ok(productResponseList);
+        var products = await _service.GetAllAsync();
+        var response = await _service.BuildProductResponseList(products);
+        return Ok(response);
     }
 
+    // GET /api/products/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        var product = await _context.Products.FindAsync(id);
+        var product = await _service.GetByIdAsync(id);
         if (product == null)
             return NotFound(new { message = "Product not found" });
 
-        var productResponse = await createProductResponse(product);
-
-        return Ok(new { message = "Product found", product = productResponse });
+        var response = await _service.BuildProductResponse(product);
+        return Ok(new { message = "Product found", product = response });
     }
 
+    // GET /api/products/most-viewed
     [HttpGet("most-viewed")]
-    public async Task<IActionResult> GetMostViewedProducts()
+    public async Task<IActionResult> GetMostViewed()
     {
-        var products = await _context.Products.OrderByDescending(p => p.Views).Take(12).ToListAsync();
-        var productResponseList = await createProductResponseList(products);
-        return Ok(productResponseList);
+        var products = await _service.GetMostViewedAsync();
+        var response = await _service.BuildProductResponseList(products);
+        return Ok(response);
     }
 
+    // GET /api/products/best-sellers
+    [HttpGet("best-sellers")]
+    public async Task<IActionResult> GetBestSellers()
+    {
+        var products = await _service.GetBestSellersAsync();
+        var response = await _service.BuildProductResponseList(products);
+        return Ok(response);
+    }
+
+    // GET /api/products/discounts
     [HttpGet("discounts")]
-    public async Task<IActionResult> GetProductsWithDiscounts()
+    public async Task<IActionResult> GetDiscountedProducts()
     {
-        var products = await _context.Products.Where(p => p.Discount != null && p.Discount != 0).Take(12).ToListAsync();
-        var productResponseList = await createProductResponseList(products);
-        return Ok(productResponseList);
+        var discounted = await _service.GetDiscountedProductsAsync();
+        var response = await _service.BuildProductResponseList(discounted);
+        return Ok(response);
     }
 
+    // POST /api/products
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> PostProduct(ProductDto productDto)
+    public async Task<IActionResult> PostProduct(ProductPostDto dto)
     {
-        Product product = new Product(productDto);
-        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        product.PublisherId = int.Parse(userId);
-        var discount = product.Discount ?? 0;
-        product.FinalPrice = product.BasePrice - (product.BasePrice * (discount / 100m));
-        product.Views = 0;
-        product.UnitsSold = 0;
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
+        var publisherId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        foreach (var img in productDto.Images)
-        {
-            ProductImage productImg = new ProductImage { ProductId = product.Id, Image = img };
-            _context.ProductImages.Add(productImg);
-        }
+        var product = await _service.CreateProductAsync(dto, publisherId);
 
-        await _context.SaveChangesAsync();
-        return Ok(new { message = "Product added sucessfully", product = await createProductResponse(product) });
-    }
+        var response = await _service.BuildProductResponse(product);
 
-    private async Task<ProductResponseDto> createProductResponse(Product product)
-    {
-        var productImages = await _context.ProductImages.Where(img => img.ProductId == product.Id).ToListAsync();
-        return new ProductResponseDto(product, productImages);
-    }
-
-    private async Task<List<ProductResponseDto>> createProductResponseList(List<Product> products)
-    {
-        List<ProductResponseDto> productResponseList = new List<ProductResponseDto>();
-        foreach (var p in products)
-        {
-            var productResponse = await createProductResponse(p);
-            productResponseList.Add(productResponse);
-        }
-        return productResponseList;
+        return Ok(new { message = "Product added successfully", product = response });
     }
 }

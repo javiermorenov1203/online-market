@@ -35,6 +35,9 @@
     font-size: 14px;
     max-height: 32px;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* máximo 2 líneas */
+    -webkit-box-orient: vertical;
 }
 
 .product-card-title:hover {

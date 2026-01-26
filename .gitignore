@@ -1,7 +1,7 @@
 backend/.vs/
 backend/WebApplication1/bin/
 backend/WebApplication1/obj/
-backend/WebApplication1/wwwroot/Images/*
+#backend/WebApplication1/wwwroot/Images/*
 
 frontend/node_modules/
 frontend/.env

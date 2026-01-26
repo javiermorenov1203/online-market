@@ -3,13 +3,14 @@ public class Product
 {
     public Product() { }
 
-    public Product(ProductDto dto)
+    public Product(ProductPostDto dto)
     {
         Name = dto.Name;
         Description = dto.Description;
         BasePrice = dto.BasePrice;
         Discount = dto.Discount;
         Quantity = dto.Quantity;
+        CategoryId = dto.CategoryId;
     }
 
     public int Id { get; set; }
@@ -22,5 +23,6 @@ public class Product
     public int PublisherId { get; set; }
     public int Views { get; set; }
     public int UnitsSold { get; set; }
+    public int CategoryId { get; set; }
 
 }

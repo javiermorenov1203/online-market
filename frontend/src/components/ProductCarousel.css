@@ -1,3 +1,7 @@
+h3.section-title {
+    text-align: center;
+}
+
 .carousel-wrapper {
     display: flex;
     align-items: center;
