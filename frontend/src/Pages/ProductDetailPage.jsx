@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import { useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 import { fetchProduct } from "../api/productApi";
-import { fetchMostViewedProducts } from "../api/productApi";
+import { fetchProductsByCategory } from "../api/productApi";
 import ProductCarousel from "../components/ProductCarousel";
 import "./ProductDetailPage.css";
 
@@ -13,16 +13,22 @@ export default function ProductDetailPage() {
     const baseUrl = import.meta.env.VITE_API_BASE
     const [product, setProduct] = useState({})
     const [selectedImageUrl, setSelectedImageUrl] = useState()
-    const [mostViewedProducts, setMostViewedProducts] = useState([])
+    const [relatedProducts, setRelatedProducts] = useState([])
 
     useEffect(() => {
         const loadProduct = async () => {
-            var data = await fetchProduct(id)
-            var product = data.product
+            const data = await fetchProduct(id)
+            const product = data.product
+
             setProduct(product)
             setSelectedImageUrl(baseUrl + product.images[0])
-            data = await fetchMostViewedProducts()
-            setMostViewedProducts(data)
+
+            let related = await fetchProductsByCategory(product.categoryId)
+
+            // filtrar EXCLUYENDO el producto actual
+            related = related.filter(p => p.id !== product.id)
+
+            setRelatedProducts(related)
         };
         loadProduct();
     }, [id]);
@@ -72,7 +78,7 @@ export default function ProductDetailPage() {
                             </div>
                         </div>
                     </div>
-                    <ProductCarousel sectionTitle={'Related products'} products={mostViewedProducts}></ProductCarousel>
+                    <ProductCarousel sectionTitle={'Related products'} products={relatedProducts}></ProductCarousel>
                 </div>
             </div>
 

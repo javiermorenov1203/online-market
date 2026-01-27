@@ -13,7 +13,7 @@
 #product-panel {
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 1.2fr 0.5fr;
+    grid-template-columns: 1fr 0.8fr 0.4fr;
     margin-top: 30px;
 }
 
@@ -56,13 +56,18 @@
 }
 
 #selected-product-image {
-    width: 280px;
-    height: 280px;
+    width: 350px;
+    aspect-ratio: 1/1;
+    margin-left: 10px;
 }
 
 #product-info {
     padding-right: 10px;
-    
+
+}
+
+#product-info p {
+    font-size: 13px;
 }
 
 #purchase-panel {

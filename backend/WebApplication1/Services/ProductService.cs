@@ -20,7 +20,7 @@ public class ProductService
         return await _context.Products.FindAsync(id);
     }
 
-    public async Task<List<Product>> GetMostViewedAsync(int limit = 10)
+    public async Task<List<Product>> GetMostViewedAsync(int limit = 8)
     {
         return await _context.Products
             .OrderByDescending(p => p.Views)
@@ -28,7 +28,7 @@ public class ProductService
             .ToListAsync();
     }
 
-    public async Task<List<Product>> GetBestSellersAsync(int limit = 10)
+    public async Task<List<Product>> GetBestSellersAsync(int limit = 8)
     {
         return await _context.Products
             .OrderByDescending(p => p.UnitsSold)
@@ -36,13 +36,13 @@ public class ProductService
             .ToListAsync();
     }
 
-    public async Task<List<Product>> GetDiscountedProductsAsync(int limit = 10)
+    public async Task<List<Product>> GetDiscountedProductsAsync(int limit = 8)
     {
         var discounted = await  _context.Products
             .Where(p => p.Discount != null && p.Discount != 0)
             .ToListAsync();
-        var bestSellers = await GetBestSellersAsync();
 
+        var bestSellers = await GetBestSellersAsync();
         var bestSellerIds = bestSellers.Select(p => p.Id).ToHashSet();
 
         // exclude best sellers
@@ -52,6 +52,15 @@ public class ProductService
             .ToList();
 
         return filteredDiscounts;
+    }
+
+    public async Task<List<ProductResponseDto>> GetProductsByCategoryAsync(int categoryId)
+    {
+        var products = await _context.Products
+            .Where(p => p.CategoryId == categoryId)
+            .ToListAsync();
+
+        return await BuildProductResponseList(products);
     }
 
     public async Task<Product> CreateProductAsync(ProductPostDto dto, int publisherId)

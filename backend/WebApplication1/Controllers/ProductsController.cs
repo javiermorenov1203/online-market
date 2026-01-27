@@ -6,19 +6,19 @@ using System.Security.Claims;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly ProductService _service;
+    private readonly ProductService _productService;
 
-    public ProductsController(ProductService service)
+    public ProductsController(ProductService productService)
     {
-        _service = service;
+        _productService = productService;
     }
 
     // GET /api/products
     [HttpGet]
     public async Task<IActionResult> GetProducts()
     {
-        var products = await _service.GetAllAsync();
-        var response = await _service.BuildProductResponseList(products);
+        var products = await _productService.GetAllAsync();
+        var response = await _productService.BuildProductResponseList(products);
         return Ok(response);
     }
 
@@ -26,11 +26,11 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        var product = await _service.GetByIdAsync(id);
+        var product = await _productService.GetByIdAsync(id);
         if (product == null)
             return NotFound(new { message = "Product not found" });
 
-        var response = await _service.BuildProductResponse(product);
+        var response = await _productService.BuildProductResponse(product);
         return Ok(new { message = "Product found", product = response });
     }
 
@@ -38,8 +38,8 @@ public class ProductsController : ControllerBase
     [HttpGet("most-viewed")]
     public async Task<IActionResult> GetMostViewed()
     {
-        var products = await _service.GetMostViewedAsync();
-        var response = await _service.BuildProductResponseList(products);
+        var products = await _productService.GetMostViewedAsync();
+        var response = await _productService.BuildProductResponseList(products);
         return Ok(response);
     }
 
@@ -47,8 +47,8 @@ public class ProductsController : ControllerBase
     [HttpGet("best-sellers")]
     public async Task<IActionResult> GetBestSellers()
     {
-        var products = await _service.GetBestSellersAsync();
-        var response = await _service.BuildProductResponseList(products);
+        var products = await _productService.GetBestSellersAsync();
+        var response = await _productService.BuildProductResponseList(products);
         return Ok(response);
     }
 
@@ -56,9 +56,17 @@ public class ProductsController : ControllerBase
     [HttpGet("discounts")]
     public async Task<IActionResult> GetDiscountedProducts()
     {
-        var discounted = await _service.GetDiscountedProductsAsync();
-        var response = await _service.BuildProductResponseList(discounted);
+        var discounted = await _productService.GetDiscountedProductsAsync();
+        var response = await _productService.BuildProductResponseList(discounted);
         return Ok(response);
+    }
+
+    // GET /api/products?categoryId
+    [HttpGet("get")]
+    public async Task<IActionResult> GetProductsByCategory([FromQuery] int categoryId)
+    {
+        var products = await _productService.GetProductsByCategoryAsync(categoryId);
+        return Ok(products);
     }
 
     // POST /api/products
@@ -68,9 +76,9 @@ public class ProductsController : ControllerBase
     {
         var publisherId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        var product = await _service.CreateProductAsync(dto, publisherId);
+        var product = await _productService.CreateProductAsync(dto, publisherId);
 
-        var response = await _service.BuildProductResponse(product);
+        var response = await _productService.BuildProductResponse(product);
 
         return Ok(new { message = "Product added successfully", product = response });
     }

@@ -13,6 +13,7 @@ public class ProductResponseDto
         PublisherId = p.PublisherId;
         Views = p.Views;
         UnitsSold = p.UnitsSold;
+        CategoryId = p.CategoryId;
         Images = productImages.Select(p => p.Image).ToList();
     }
 
@@ -26,6 +27,7 @@ public class ProductResponseDto
     public int PublisherId { get; set; }
     public int Views { get; set; }
     public int UnitsSold { get; set; }
+    public int CategoryId { get; set; }
     public List<string> Images { get; set; }
 
 }

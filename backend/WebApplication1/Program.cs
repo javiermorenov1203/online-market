@@ -30,7 +30,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(); // Opcional pero recomendado
 
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<PurchaseService>();
+
 builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>

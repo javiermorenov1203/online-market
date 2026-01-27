@@ -1,85 +1,47 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : HomeController
+public class AuthController : ControllerBase
 {
-    private readonly IConfiguration _config;
-    public AuthController(AppDbContext context, IConfiguration config) : base(context)
+    private readonly AuthService _authService;
+
+    public AuthController(AuthService authService)
     {
-        _config = config;
+        _authService = authService;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(UserInfoDto userInfoDto)
     {
-        User user = new User(userInfoDto.userDto);
-        UserPersonalData userPersonalData = new UserPersonalData(userInfoDto.userPersonalDataDto);
+        if (await _authService.GetUserByEmailAsync(userInfoDto.userDto.Email) != null)
+            return BadRequest(new { error = "Email has already been registered", userInfoDto.userDto.Email });
 
-        if (await _context.Users.AnyAsync(u => u.Email == user.Email))
-            return BadRequest(new { error = "Email has already been registered", user.Email });
-
-        string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-        user.Password = hashedPassword;
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        userPersonalData.UserId = user.Id;
-        _context.UserPersonalData.Add(userPersonalData);
-        await _context.SaveChangesAsync();
+        var userInfo = await _authService.RegisterUserAsync(userInfoDto);
 
         return Ok(new
         {
             message = "User registered successfully",
-            userInfo = new UserInfo
-            {
-                user = user,
-                userPersonalData = userPersonalData
-            }
+            userInfo
         });
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserDto userDto)
     {
-        User user = new User(userDto);
-        var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        User dbUser = await _authService.GetUserByEmailAsync(userDto.Email);
+
+        // User is not registered
         if (dbUser == null)
             return Unauthorized(new { error = "Email or password are invalid" });
 
-        bool isValid = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
+        bool isPasswordValid = await _authService.ValidatePasswordAsync(userDto.Password, dbUser.Password);
 
-        if (!isValid)
+        if (!isPasswordValid)
             return Unauthorized(new { error = "Email or password are invalid" });
 
-        // 1) Claims del usuario
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, dbUser.Id.ToString()),
-            new Claim(ClaimTypes.Email, dbUser.Email)
-        };
-
-        // 2) clave secreta que usarás en appsettings.json
-        var secret = _config["Jwt:Key"];
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        // 3) Crear token
-        var token = new JwtSecurityToken(
-            claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
-            signingCredentials: creds);
-
-        string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-        // 4) Devolver token al frontend
+        string tokenString = _authService.GenerateJwtToken(dbUser);
+        
         return Ok(new
         {
             message = "Successful login",
@@ -88,14 +50,12 @@ public class AuthController : HomeController
     }
 
     [HttpGet("check-email-exists")]
-    public async Task<IActionResult> CheckEmailExists([FromQuery] string email)
+    public async Task<IActionResult> CheckIfEmailExists([FromQuery] string email)
     {
-        bool exists = await _context.Users.AnyAsync(u => u.Email == email);
+        if (await _authService.GetUserByEmailAsync(email) == null)
+            return NotFound(new { message = "Email not found" });
 
-        if (!exists)
-            return NotFound(new { message = "User not found" });
-
-        return Ok(new { message = "User found" });
+        return Ok(new { message = "Email found" });
     }
 }
 

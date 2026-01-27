@@ -51,3 +51,13 @@ export const fetchProductsWithDiscounts = async () => {
         throw error;
     }
 };
+
+export const fetchProductsByCategory = async (categoryId) => {
+    try {
+        const response = await axios.get(`${apiUrl}/products/get?categoryId=${categoryId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        throw error;
+    }
+};
