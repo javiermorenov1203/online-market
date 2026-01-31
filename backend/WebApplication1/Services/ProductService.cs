@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 
 public class ProductService
@@ -58,6 +59,15 @@ public class ProductService
     {
         var products = await _context.Products
             .Where(p => p.CategoryId == categoryId)
+            .ToListAsync();
+
+        return await BuildProductResponseList(products);
+    }
+
+    public async Task<List<ProductResponseDto>> SearchProductAsync(string productName)
+    {
+        var products = await _context.Products
+            .Where(p => p.Name.ToLower().Contains(productName.ToLower()))
             .ToListAsync();
 
         return await BuildProductResponseList(products);

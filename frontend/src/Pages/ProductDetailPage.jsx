@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { fetchProduct } from "../api/productApi";
 import { fetchProductsByCategory } from "../api/productApi";
 import ProductCarousel from "../components/ProductCarousel";
+import Footer from "../components/Footer";
 import "./ProductDetailPage.css";
 
 export default function ProductDetailPage() {
@@ -55,21 +56,27 @@ export default function ProductDetailPage() {
                             </div>
                             <div id="product-info">
                                 <h3>{product.name}</h3>
-                                <p>{product.description}</p>
+                                <p><strong>Publisher:</strong> <a href="">Javier Moreno</a></p>
+                                <p id="stock-availability"><strong>Availabilty:</strong>
+                                    <span className={product.stock != 0 ? "in-stock" : "no-stock"}>
+                                        {product.stock != 0 ? " In Stock" : " Out of stock"}
+                                    </span>
+                                </p>
+                                <p><strong>Brand:</strong> Best Brand Ever</p>
+                                <p><strong>Color:</strong> [placeholder info]</p>
+                                <p><strong>Size:</strong> [placeholder info]</p>
+                                <p><strong>Weight:</strong> [placeholder info]</p>
                             </div>
                             <div id="purchase-panel">
                                 <div id="price-wrapper">
-                                    <p className="product-card-base-price">{!!product.discount ? 'USD ' + product.basePrice?.toFixed(2) : ''}</p>
-                                    <div id='final-price'>
-                                        <p className="product-card-price">USD {product.finalPrice?.toFixed(2)}</p>
+                                    <div id='base-price'>
+                                        <p className="product-card-base-price">{!!product.discount ? 'USD ' + product.basePrice?.toFixed(2) : ''}</p>
                                         <p className="product-card-discount">{!!product.discount ? product.discount + '% OFF' : ''}</p>
                                     </div>
-                                    <p style={{ color: (!!product.stock) ? 'rgb(255, 78, 78)' : 'green' }}>
-                                        {!!product.stock ? 'Out of Stock' : 'In Stock'}
-                                    </p>
+                                    <p className="product-card-price">USD {product.finalPrice?.toFixed(2)}</p>
                                 </div>
                                 <label>Quanity
-                                    <input type="number" />
+                                    <input className="field" type="number" defaultValue={1} min={1} />
                                 </label>
                                 <div id="button-container">
                                     <button>Add to cart</button>
@@ -78,10 +85,18 @@ export default function ProductDetailPage() {
                             </div>
                         </div>
                     </div>
+                    <div id="description-section">
+                        <h3>Description</h3>
+                        <p>{product.description}</p>
+                    </div>
+                    <div id="reviews-section">
+                        <h3>Reviews</h3>
+                        <p>This product has no reviews yet.</p>
+                    </div>
                     <ProductCarousel sectionTitle={'Related products'} products={relatedProducts}></ProductCarousel>
                 </div>
             </div>
-
+            <Footer></Footer>
         </>
     )
 }

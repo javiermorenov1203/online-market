@@ -61,11 +61,19 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
-    // GET /api/products?categoryId
+    // GET /api/products/get?categoryId
     [HttpGet("get")]
     public async Task<IActionResult> GetProductsByCategory([FromQuery] int categoryId)
     {
         var products = await _productService.GetProductsByCategoryAsync(categoryId);
+        return Ok(products);
+    }
+
+    // GET /api/products/search?productName
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchProduct([FromQuery] string productName)
+    {
+        var products = await _productService.SearchProductAsync(productName);
         return Ok(products);
     }
 

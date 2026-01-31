@@ -2,12 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 980px;
 }
 
 #product-panel-wrapper {
     display: flex;
     justify-content: center;
-    max-width: 975px;
+    text-align: left;
 }
 
 #product-panel {
@@ -33,15 +34,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 #product-images-sidebar div {
     height: 54px;
     width: 54px;
-    border-width: 1px;
-    border-style: solid;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    border-color: rgb(104, 104, 104);
     cursor: pointer;
 }
 
@@ -49,10 +49,6 @@
 #selected-product-image img {
     max-height: 100%;
     max-width: 100%;
-}
-
-#product-images-sidebar img {
-    border-radius: inherit;
 }
 
 #selected-product-image {
@@ -63,40 +59,61 @@
 
 #product-info {
     padding-right: 10px;
+}
 
+#product-info h3 {
+    margin-top: 0;
 }
 
 #product-info p {
     font-size: 13px;
 }
 
+#product-info a {
+    color: var(--text-color)
+}
+
+.in-stock {
+    color: green;
+}
+
+.no-stock {
+    color: rgb(255, 78, 78);
+}
+
 #purchase-panel {
     padding: 0 10px;
-    border-width: 1px;
-    border-style: solid;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    border-color: rgb(104, 104, 104);
     width: 90%;
     padding-top: 10%;
+}
 
+#purchase-panel .product-card-price {
+    font-size: 18px;
 }
 
 #price-wrapper {
     display: grid;
     gap: 5px;
 }
+
 #price-wrapper p {
     margin: 0;
 }
 
-#purchase-panel #final-price {
+#base-price {
     display: flex;
-    justify-content: space-between;
+    gap: 6px;
     align-items: center;
 }
 
 #purchase-panel .product-card-base-price {
     margin-bottom: 0;
+}
+
+#purchase-panel input.field {
+    color: var(--text-color);
 }
 
 #button-container {
@@ -121,11 +138,6 @@
     width: 100%;
     margin: 0;
     text-align: center;
-    padding: 3px 0;
-    padding-left: 8%;
+    padding-left: 12%;
     font-size: 13px;
-    background-color: rgb(248, 248, 248);
-    border-radius: 5px;
-    border-width: 1px;
-    border-style: solid;
 }

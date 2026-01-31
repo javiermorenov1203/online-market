@@ -1,0 +1,25 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#home-image-carousel {
+    display: flex;
+    align-items: center;
+}
+
+#home-image {
+    display: flex;
+    width: 870px;
+    margin: 0 1%;
+    background-color: rgb(255, 255, 255);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#home-image img {
+    width: 100%;
+}
