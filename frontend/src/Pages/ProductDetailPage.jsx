@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import { useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchProduct } from "../api/productApi";
 import { fetchProductsByCategory } from "../api/productApi";
 import ProductCarousel from "../components/ProductCarousel";
@@ -38,8 +38,7 @@ export default function ProductDetailPage() {
         <>
             <Header></Header>
             <div className="page">
-                <div id="product-page-content">
-                    <div id="product-panel-wrapper">
+                <div className="content">
                         <div id="product-panel">
                             <div id="product-images">
                                 <div id="product-images-sidebar">
@@ -62,9 +61,9 @@ export default function ProductDetailPage() {
                                         {product.stock != 0 ? " In Stock" : " Out of stock"}
                                     </span>
                                 </p>
+                                <p><strong>Rating:</strong> [placeholder info]</p>
                                 <p><strong>Brand:</strong> Best Brand Ever</p>
                                 <p><strong>Color:</strong> [placeholder info]</p>
-                                <p><strong>Size:</strong> [placeholder info]</p>
                                 <p><strong>Weight:</strong> [placeholder info]</p>
                             </div>
                             <div id="purchase-panel">
@@ -84,7 +83,6 @@ export default function ProductDetailPage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <div id="description-section">
                         <h3>Description</h3>
                         <p>{product.description}</p>

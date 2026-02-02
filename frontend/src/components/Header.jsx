@@ -1,14 +1,30 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
 import "./Header.css"
 
 export default function Header() {
+
+    const [query, setQuery] = useState("");
+    const navigate = useNavigate();
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            navigate(`/search?q=${encodeURIComponent(query)}`);
+        }
+    };
 
     return (
         <header className="main-header">
             <div className="header-container">
                 <div className="header-center">
                     <Link to="/" id="page-title">Online Market</Link>
-                    <input type="search" placeholder="Search an item..." />
+                    <input
+                        type="search"
+                        placeholder="Search an item..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
                 </div>
                 <div className="header-right">
                     {localStorage.getItem('token') ?

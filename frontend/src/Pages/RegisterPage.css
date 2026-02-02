@@ -1,11 +1,11 @@
 #register-form {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
 #account-info,
 #personal-info {
-    width: 900px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;

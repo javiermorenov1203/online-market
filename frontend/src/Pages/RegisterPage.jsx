@@ -32,39 +32,43 @@ export default function RegisterPage() {
     return (
         <>
             <LoginHeader></LoginHeader>
-            <form id="register-form" onSubmit={handleSubmit}>
-                <h3 className='section-title'>Account Information</h3>
-                <div id="account-info">
-                    <label>Email
-                        <input type="email" name="email" className="field" ref={emailRef} />
-                    </label>
-                    <label>Password
-                        <input type="password" name="password" className="field" ref={passwordRef} />
-                    </label>
-                    <label>Confirm password
-                        <input type="password" name="password" className="field" ref={confirmPasswordRef} />
-                    </label>
+            <div className='page'>
+                <div className='content'>
+                    <form id="register-form" onSubmit={handleSubmit}>
+                        <h3 className='section-title'>Account Information</h3>
+                        <div id="account-info">
+                            <label>Email
+                                <input type="email" name="email" className="field" ref={emailRef} />
+                            </label>
+                            <label>Password
+                                <input type="password" name="password" className="field" ref={passwordRef} />
+                            </label>
+                            <label>Confirm password
+                                <input type="password" name="password" className="field" ref={confirmPasswordRef} />
+                            </label>
+                        </div>
+                        <h3 className='section-title'>Personal Information</h3>
+                        <div id="personal-info">
+                            <label>First name
+                                <input type="text" name="firstName" className="field" ref={firstNameRef} />
+                            </label>
+                            <label>Middle name
+                                <input type="text" name="middleName" className="field" ref={middleNameRef} />
+                            </label>
+                            <label>Last name
+                                <input type="text" name="lastName" className="field" ref={lastNameRef} />
+                            </label>
+                            <label>Second last name
+                                <input type="text" name="secondLastName" className="field" ref={secondLastNameRef} />
+                            </label>
+                        </div>
+                        <div id="register-footer">
+                            <button type="button" onClick={() => navigate(-1)}>Cancel</button>
+                            <input type="submit" value="Register" />
+                        </div>
+                    </form>
                 </div>
-                <h3 className='section-title'>Personal Information</h3>
-                <div id="personal-info">
-                    <label>First name
-                        <input type="text" name="firstName" className="field" ref={firstNameRef} />
-                    </label>
-                    <label>Middle name
-                        <input type="text" name="middleName" className="field" ref={middleNameRef} />
-                    </label>
-                    <label>Last name
-                        <input type="text" name="lastName" className="field" ref={lastNameRef} />
-                    </label>
-                    <label>Second last name
-                        <input type="text" name="secondLastName" className="field" ref={secondLastNameRef} />
-                    </label>
-                </div>
-                <div id="register-footer">
-                    <button type="button" onClick={() => navigate(-1)}>Cancel</button>
-                    <input type="submit" value="Register" />
-                </div>
-            </form>
+            </div>
         </>
     )
 }

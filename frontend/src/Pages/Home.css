@@ -1,14 +1,7 @@
-.content {
-    display: flex;
-    flex-direction: column;
-    width: min-content;
-    align-items: center;
-    margin-top: 30px;
-}
-
 #home-image-carousel {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 #home-image {
