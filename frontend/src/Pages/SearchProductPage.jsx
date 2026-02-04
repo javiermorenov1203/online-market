@@ -45,19 +45,19 @@ export default function SearchProductPage() {
                             <p><strong>Price: </strong></p>
                             <div className="checkbox-group">
                                 <div className="checkbox-container">
-                                    <input type="checkbox" id="$50" name="price"></input>
+                                    <input type="radio" id="$50" name="price"></input>
                                     <label for="$50">Up to $50</label>
                                 </div>
                                 <div className="checkbox-container">
-                                    <input type="checkbox" id="$50-250" name="price"></input>
+                                    <input type="radio" id="$50-250" name="price"></input>
                                     <label for="$50-250">$50 to $250</label>
                                 </div>
                                 <div className="checkbox-container">
-                                    <input type="checkbox" id="$250-400" name="price"></input>
+                                    <input type="radio" id="$250-400" name="price"></input>
                                     <label for="$250-400">$250 to $400</label>
                                 </div>
                                 <div className="checkbox-container">
-                                    <input type="checkbox" id="$400-above" name="price"></input>
+                                    <input type="radio" id="$400-above" name="price"></input>
                                     <label for="$400-above">$400 & above</label>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ export default function SearchProductPage() {
                             <p><strong>Discounts: </strong></p>
                             <div className="checkbox-group">
                                 <div className="checkbox-container">
-                                    <input type="checkbox" id="discounts" name="brand"></input>
+                                    <input type="radio" id="discounts" name="brand"></input>
                                     <label for="discounts">Discounts</label>
                                 </div>
                             </div>

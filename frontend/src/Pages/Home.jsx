@@ -13,11 +13,11 @@ export default function Home() {
     const homeImageRef = useRef(null);
 
     const scrollLeft = () => {
-        homeImageRef.current.scrollBy({ left: -870, behavior: "smooth" });
+        homeImageRef.current.scrollBy({ left: -1050, behavior: "smooth" });
     };
 
     const scrollRight = () => {
-        homeImageRef.current.scrollBy({ left: 870, behavior: "smooth" });
+        homeImageRef.current.scrollBy({ left: 1050, behavior: "smooth" });
     };
 
     useEffect(() => {

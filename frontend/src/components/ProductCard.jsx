@@ -15,8 +15,8 @@ export default function ProductCard({ product }) {
                 <div className="product-card-price-container">
                     <p className="product-card-price">USD {product.finalPrice.toFixed(2)}</p>
                     <p className="product-card-discount">{!!product.discount ? product.discount + '% OFF' : ''}</p>
-                    <p className="product-card-base-price">{!!product.discount ? 'USD ' + product.basePrice.toFixed(2) : ''}</p>
                 </div>
+                    <p className="product-card-base-price">{!!product.discount ? 'USD ' + product.basePrice.toFixed(2) : ''}</p>
             </div>
         </div>
     )

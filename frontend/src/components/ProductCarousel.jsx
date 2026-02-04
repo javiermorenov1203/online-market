@@ -8,12 +8,12 @@ export default function ProductCarousel({ sectionTitle, products }) {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const scrollLeft = () => {
-        panelRef.current.scrollBy({ left: -220, behavior: "smooth" });
+        panelRef.current.scrollBy({ left: -212, behavior: "smooth" });
     };
 
     const scrollRight = () => {
         setIsDisabled(true);
-        panelRef.current.scrollBy({ left: 220, behavior: "smooth" });
+        panelRef.current.scrollBy({ left: 212, behavior: "smooth" });
         setTimeout(() => {
             setIsDisabled(false);
         }, 300);

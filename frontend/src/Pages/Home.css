@@ -6,8 +6,8 @@
 
 #home-image {
     display: flex;
-    width: 870px;
-    margin: 0 1%;
+    width: 1046px;
+    margin: 0 5px;
     background-color: rgb(255, 255, 255);
     overflow-x: auto;
     scrollbar-width: none;
@@ -15,4 +15,10 @@
 
 #home-image img {
     width: 100%;
+}
+
+@media screen and (max-width: 1300px) {
+    #home-image {
+        max-width: 835px;
+    }
 }

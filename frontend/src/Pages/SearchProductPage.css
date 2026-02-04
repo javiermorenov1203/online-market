@@ -6,7 +6,6 @@
 #upper-right {
     display: flex;
     gap: 8px;
-    margin-right: 90px;
     align-items: center;
 }
 
@@ -27,6 +26,11 @@
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(5, 1fr);
+}
+
+#search-results-wrapper .product-card {
+    max-width: 200px;
+    width: stretch;
 }
 
 #pagination-buttons {
@@ -59,14 +63,8 @@
     gap: 8px;
 }
 
-.checkbox-container input[type="checkbox"] {
+.checkbox-container input {
     margin: 0;
     width: 17px;
     aspect-ratio: 1 / 1;
-}
-
-@media screen and (max-width: 1280px) {
-    #search-results-wrapper {
-        grid-template-columns: repeat(4, 1fr);
-    }
 }
