@@ -36,3 +36,16 @@ input[type="submit"]:hover {
 label input {
     margin-top: 4px;
 }
+
+.image-loading {
+    background-color: rgba(214, 214, 214, 0.523);
+    width: 100%;
+    height: 100%;
+}
+
+.info-loading {
+    background-color: rgba(214, 214, 214, 0.523);
+    width: stretch;
+    height: 20px;
+    border-radius: 25px;
+}

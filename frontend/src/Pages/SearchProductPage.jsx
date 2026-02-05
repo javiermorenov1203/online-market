@@ -86,9 +86,18 @@ export default function SearchProductPage() {
                         </div>
                         <div id="search-results-panel">
                             <div id="search-results-wrapper">
-                                {products.map(p => (
-                                    <ProductCard product={p}></ProductCard>
-                                ))}
+                                {(products.length !== 0) ?
+                                    products.map(p => (
+                                        <ProductCard product={p}></ProductCard>
+                                    ))
+                                    : (<>
+                                        <ProductCard />
+                                        <ProductCard />
+                                        <ProductCard />
+                                        <ProductCard />
+                                        <ProductCard />
+                                    </>
+                                    )}
                             </div>
                             <div id="pagination-buttons">
                                 <button className="arrow-btn">&lt;</button>

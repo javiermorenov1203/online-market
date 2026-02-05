@@ -21,7 +21,7 @@ div.content {
 }
 
 div.content > * {
-    width: 100%;
+    width: stretch;
 }
 
 :root {

@@ -28,6 +28,10 @@
     grid-template-columns: repeat(5, 1fr);
 }
 
+#search-results-panel {
+    width: stretch;
+}
+
 #search-results-wrapper .product-card {
     max-width: 200px;
     width: stretch;

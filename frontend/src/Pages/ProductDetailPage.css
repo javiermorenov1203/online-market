@@ -15,7 +15,7 @@
     gap: 10px;
 }
 
-#product-images-sidebar div,
+#product-images-sidebar > div,
 #selected-product-image {
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
     overflow: hidden;
 }
 
-#product-images-sidebar div {
+#product-images-sidebar > div {
     height: 54px;
     width: 54px;
     border: 1px solid var(--border-color);

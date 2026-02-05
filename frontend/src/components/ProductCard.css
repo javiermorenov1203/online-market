@@ -5,6 +5,7 @@
     border: 1px solid var(--border-color);
     border-radius: 5px;
     background-color: white;
+    overflow: hidden;
 }
 
 .product-image-container {
@@ -28,9 +29,12 @@
 
 .product-card-info {
     padding: 0px 10px;
+    padding-top: 15px;
+    width: stretch;
 }
 
 .product-card-title {
+    margin-top: 0;
     font-size: 14px;
     max-height: 32px;
     overflow: hidden;

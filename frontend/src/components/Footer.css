@@ -22,9 +22,5 @@ footer p:hover {
 #footer-column-wrapper {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    width: 950px;
-}
-
-.footer-column {
-    padding-left: 40px;
+    padding: 0 80px;
 }

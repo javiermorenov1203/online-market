@@ -25,9 +25,17 @@ export default function ProductCarousel({ sectionTitle, products }) {
             <div className="carousel-wrapper">
                 <button className="arrow-btn" onClick={scrollLeft}>&lt;</button>
                 <div className="product-panel" ref={panelRef}>
-                    {products.map(p => (
+                    {(products.length !== 0) ? products.map(p => (
                         <ProductCard key={p.id} product={p} />
-                    ))}
+                    )) : (
+                        <>
+                            <ProductCard />
+                            <ProductCard />
+                            <ProductCard />
+                            <ProductCard />
+                            <ProductCard />
+                        </>
+                    )}
                 </div>
                 <button className="arrow-btn" onClick={scrollRight} disabled={isDisabled}>&gt;</button>
             </div>
